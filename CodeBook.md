@@ -36,43 +36,28 @@ The following file is available for the train and test data. Their descriptions 
 - 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
 
 # Variables used
-testLab  corresponds to y_test.txt
-testSubject <- read.table("./test/subject_test.txt")
-testData <- read.table("./test/x_test.txt")
-test <- cbind(testLab,testSubject,testData)
+- **testLab** corresponds to 'y_test.txt'
+- **testSubject** corresponds to s'ubject_test.txt'
+- **testData** corresponds to 'x_test.txt'
+- **test** combines testLab, testSubject and testData
 
 ## Compiling train files into one file
-trainLab <- read.table("./train/y_train.txt")
-trainSubject <- read.table("./train/subject_train.txt")
-trainData <- read.table("./train/x_train.txt")
-train <- cbind(trainLab,trainSubject,trainData)
+- **trainLab** corresponds to 'y_train.txt'
+- **trainSubject** corresponds to 'subject_train.txt'
+- **trainData** corresponds to 'x_train.txt'
+- **train** combines trainLab, trainSubject and trainData
 
-## Merge test and train datasets
-merged <- rbind(test,train)
+## Merging test and train datasets
+- **merged** combines test and train data sets
 
-## Gets labels
-library(dplyr)
-FeatLabel <- read.table("./features.txt")
-ActLabel <- read.table("./activity_labels.txt")
+## Applying labels
+The labels in 'features.txt' and 'activity_labels.txt' are applied to the merged data set, to the columns and rows, respectively.
 
-#Label features (cols)
-colnames(merged) <- c("activity","subject",FeatLabel$V2)
+## Extracting the mean and standard deviation columns
+There are multiple columns that contain mean and standard deviation. These columns are extracted and saved into a new data set named **data**.
 
-#Label activities (rows)
-merged$activity <- ActLabel$V2[match(merged$activity, ActLabel$V1)]
+## Creating new data set with the average of each variable for each activity and each subject
+The data is aggregated by subject and activity, and the mean is calculated for each column and saved into a new data set called **final**.
 
-#Extracts only the measurements on the mean and standard deviation for each measurement
-measure <- grep( "std|mean\\(\\)", FeatLabel$V2 ) + 1
-
-# Data with only the mean and standard deviation for each column 
-data <- merged[, c( 1,measure,563 ) ]
-
-
-#From the data, create a second, independent tidy data set 
-#with the average of each variable for each activity and each subject.
-
-final <- aggregate( . ~ subject + activity, data = data, FUN = mean )
-
-#creating a tidy dataset file  
-library(data.table)
-write.table(final,"final.txt",row.names = FALSE)
+## Saving the final data set
+The data created in the previous step is saved into a file called 'final.txt'.
