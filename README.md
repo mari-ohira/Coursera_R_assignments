@@ -16,7 +16,7 @@ Here are the data for the project:
 
 ## How all of the scripts work and are connected
 
-The script "run_analysis.R" merges the training and the test sets in the available data package to create a single data set. It then extracts only the measurements on the mean and standard deviation for each measurement.
+The script "run_analysis.R" merges the training and the test sets in the available data package (zip file above) to create a single data set. It then extracts only the measurements on the mean and standard deviation for each measurement.
 
 Next, it applies the correct labels to the data set according to the activities and features of each observation and variable.
 
